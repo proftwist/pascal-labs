@@ -1,7 +1,7 @@
 //Лабораторная работа № 2. Вычисление факториала. 
 
 Program pt;
-var x,f: SmallInt;
+var x,f: integer;
     z: integer;
 Begin
  writeln ('Введите число, для которого нужно посчитать факториал'); Readln (x);
