@@ -6,45 +6,81 @@
 //Выводит исходный и изменённый вариант.
 
 Program zamstring;
- type mas=array[1..10] of string;
- var F:mas; i,n:integer; T:string;
- Function zamena(F:string): string;
-      var  fpozit,D,Q: integer;
-           sper,sposled:string;
- Begin
- fpozit:=Pos(' ',F);
- sper:=Copy(F,1,fpozit);
- D:=Length(F);
- Q:=D;
- while F[Q]<>(' ') do Q:=Q-1;
- sposled:=Copy(F,Q+1,D-Q+1);
- Delete(F,Q,D-Q+1);
- Delete(F,1,fpozit);
-   Insert(' ',F,1);
- Insert(sposled,F,1);
- D:=Length(F);
-   Insert(' ',sper,1);
- Insert(sper,F,D+1);
- zamena:=F;
- End;
 
- Begin
- writeln ('Введите количество строк'); readln(n);
- for i:=1 to n do
- begin
-  writeln ('Вводите строку'); readln(F[i]);
- end;
- for i:=1 to n do
- begin
- writeln(' ');
- writeln('Вывожу исходный текст');
- writeln (F[i]);
- T:=zamena(F[i]);
- writeln(' ');
- write(' ':20);
- writeln('Вывожу конечный текст');
- write(' ':20);
- writeln(T);
- writeln;
- end;
- End.
+{-------------------------------------------}
+{ Программа для перестановки слов в строке }
+{ Первая и последняя слова "переставляются" }
+{-------------------------------------------}
+
+type
+  mas = array[1..10] of string;  { Массив из 10 строк }
+
+var
+  F: mas;      { Массив строк }
+  i, n: integer; { Счётчики }
+  T: string;     { Переменная для результата функции zamena }
+
+{-------------------------------------------}
+{ Функция zamena переставляет первое и последнее слово в строке }
+{-------------------------------------------}
+Function zamena(F: string): string;
+var
+  fpozit, D, Q: integer;  { fpozit - позиция первого пробела, D - длина строки, Q - индекс последнего пробела }
+  sper, sposled: string;  { sper - первое слово, sposled - последнее слово }
+Begin
+  fpozit := Pos(' ', F);          { находим позицию первого пробела }
+  sper := Copy(F, 1, fpozit);    { копируем первое слово вместе с пробелом }
+
+  D := Length(F);                { длина исходной строки }
+  Q := D;
+
+  { Находим позицию последнего пробела }
+  while F[Q] <> ' ' do
+    Q := Q - 1;
+
+  sposled := Copy(F, Q + 1, D - Q + 1); { копируем последнее слово }
+  
+  Delete(F, Q, D - Q + 1);       { удаляем последнее слово из исходной строки }
+  Delete(F, 1, fpozit);          { удаляем первое слово из исходной строки }
+
+  Insert(' ', F, 1);             { вставляем пробел в начало оставшейся строки }
+  Insert(sposled, F, 1);         { вставляем последнее слово в начало }
+
+  D := Length(F);                
+  Insert(' ', sper, 1);           { добавляем пробел к первому слову }
+  Insert(sper, F, D + 1);         { вставляем первое слово в конец }
+
+  zamena := F;                    { возвращаем полученную строку }
+End;
+
+{-------------------------------------------}
+{ Основная программа }
+{-------------------------------------------}
+Begin
+  writeln('Введите количество строк'); 
+  readln(n);
+
+  { Ввод строк пользователем }
+  for i := 1 to n do
+  begin
+    writeln('Вводите строку'); 
+    readln(F[i]);
+  end;
+
+  { Вывод исходных и преобразованных строк }
+  for i := 1 to n do
+  begin
+    writeln(' ');
+    writeln('Вывожу исходный текст:');
+    writeln(F[i]);
+
+    T := zamena(F[i]);   { преобразуем строку }
+
+    writeln(' ');
+    write(' ':20);
+    writeln('Вывожу конечный текст:');
+    write(' ':20);
+    writeln(T);
+    writeln;
+  end;
+End.
